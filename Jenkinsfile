@@ -1,24 +1,42 @@
 
-
 pipeline{
     agent any
-    tools{
-        maven 'Maven3'
-    }
     stages{
-        stage('clone'){
+        stage('checkout'){
             steps{
-              git branch: 'develop', credentialsId: 'personal-token', url: 'https://github.com/assumptagithub/qr-momo.git'
-            sh"ls -l"  
+                'https://github.com/assumptagithub/qr-momo.git'
             }
         }
-        stage('Maven test'){
+        stage('Build Docker Image'){
             steps{
-                sh"mvn test"
+                script{
+                    // Build the Docker image
+                    sh 'docker build -t momo-app .'
+                }
             }
-        }
-        stage("Build & Test"){
-            sh 'docker build -t app:v1 .'
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
